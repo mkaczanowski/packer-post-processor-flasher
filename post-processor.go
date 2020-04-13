@@ -9,6 +9,7 @@ import (
 	"strings"
 	"syscall"
 
+	"github.com/hashicorp/hcl/v2/hcldec"
 	"github.com/hashicorp/packer/helper/config"
 	"github.com/hashicorp/packer/packer"
 	"github.com/hashicorp/packer/template/interpolate"
@@ -52,6 +53,11 @@ func (f *Flasher) ask(question string) error {
 	}
 
 	return nil
+}
+
+// ConfigSpec returns the config spec
+func (f *Flasher) ConfigSpec() hcldec.ObjectSpec {
+	return f.config.FlatMapstructure().HCL2Spec()
 }
 
 // Flash writes image to the selected device
